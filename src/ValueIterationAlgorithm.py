@@ -7,19 +7,19 @@ class World:
         self.gamma = 0.0
         self.constructed_world = []
 
-    def getP(self):
+    def get_p(self):
         return self.p
 
-    def getReward(self):
+    def get_reward(self):
         return self.reward
 
-    def getGamma(self):
+    def get_gamma(self):
         return self.gamma
 
-    def getConstructedWorld(self):
+    def get_constructed_world(self):
         return self.constructed_world
 
-    def updateConstructedWorld(self, constructed_world):
+    def update_constructed_world(self, constructed_world):
         self.constructed_world = constructed_world
 
 class Cell:
@@ -86,16 +86,18 @@ class ValueIterationAlgorithm:
 
     def update_position_changes(self, action, current_orientation):
         actions = self.update_actions(current_orientation)
-        for act in actions:
-            if act[0] == 0 and act[1] == 0:
-                return (0, 0)
-        return actions[action]
+        
+        # Mapping action string to corresponding index
+        action_index = self.actions.index(action)
+        
+        return actions[action_index]
 
     def calculate_new_utility(self, action_utilities, x, y):
         return self.constructed_world[x][y].reward + self.gamma * max(action_utilities)
 
     def get_best_policy(self, action_utilities):
-        return self.actions[self.actions.index(max(action_utilities))]
+        max_index = action_utilities.index(max(action_utilities))
+        return self.actions[max_index]
 
     def update_cell_utility(self, x, y, new_utility):
         self.constructed_world[x][y].utility = new_utility
@@ -128,10 +130,10 @@ class ValueIterationAlgorithm:
         action_utilities.append(utility)
 
     def start(self, world):
-        self.p = world.getP()
-        self.reward = world.getReward()
-        self.gamma = world.getGamma()
-        self.constructed_world = world.getConstructedWorld()
+        self.p = world.get_p()
+        self.reward = world.get_reward()
+        self.gamma = world.get_gamma()
+        self.constructed_world = world.get_constructed_world()
 
         self.width = len(self.constructed_world)
         self.height = len(self.constructed_world[0])
@@ -169,4 +171,4 @@ class ValueIterationAlgorithm:
             stop_condition = current_max_delta < 0.0001 or stop_condition
             max_delta = max(max_delta, current_max_delta)
 
-        world.updateConstructedWorld(self.constructed_world)
+        world.update_constructed_world(self.constructed_world)

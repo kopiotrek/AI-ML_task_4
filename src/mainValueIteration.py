@@ -19,9 +19,10 @@ def main():
 
     # Initialize World object
     world = World()
+    value_iteration_algorithm = ValueIterationAlgorithm()
 
     # Load world parameters from file
-    if not world.load_world_parameters_from_file(args.data):
+    if not world.load_world_parameters_from_file(args.data, False):
         print("Error: Failed to load world parameters from file.")
         return 1
 
@@ -36,14 +37,14 @@ def main():
     world.construct_world()
 
     # Run Value Iteration Algorithm
-    ValueIterationAlgorithm.start(world)
+    value_iteration_algorithm.start(world)
 
     # Display world
     world.display_world()
 
     # Plot if requested
     if args.plot:
-        Plotter.plot(ValueIterationAlgorithm.saved_state_utilities)
+        Plotter.plot(value_iteration_algorithm.saved_state_utilities)
 
 if __name__ == "__main__":
     main()
