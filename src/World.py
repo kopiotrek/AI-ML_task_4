@@ -232,56 +232,49 @@ class World:
         height = len(self.constructed_world[0])
         width = len(self.constructed_world)
 
-        max_chars = 0
-        for i in range(width):
-            for j in range(height):
-                num = self.constructed_world[i][j].utility
-                chars_before_decimal = len(str(int(num)))
-                if num < 0:
-                    chars_before_decimal += 1
-                max_chars = max(max_chars, chars_before_decimal)
+        # Determine the maximum width needed for each cell, considering utility values with 4 decimal places
+        max_chars = max(len(f"{cell.utility:.4f}") for row in self.constructed_world for cell in row) + 1
 
-        line1 = "+-" + "-" * max_chars + "-+" + ("-" * (max_chars + 1)) * (width - 1) + "+\n"
-        line2 = "| " + " " * max_chars + " | " + " " * max_chars * (width - 1) + " |\n"
+        # Generate horizontal line
+        line = "=" * ((max_chars + 3) * width + 1) + "\n"
 
-        print(line1, end="")
+        # Print the grid
+        print(line, end="")
         for j in range(height):
-            print(line2, end="")
-            print("| ", end="")
+            print("║", end="")
             for i in range(width):
-                utility = self.constructed_world[i][j].utility
-                print(f"{utility:>{max_chars}.4f} ", end="")
-                if i < width - 1:
-                    print("| ", end="")
-            print("|\n", end="")
-            print(line1, end="")
+                print(f" {self.constructed_world[i][j].utility:>{max_chars}.4f} ║", end="")
+            print("\n", end="")
+            print(line, end="")
 
     def display_q_values(self):
+        if not self.constructed_world:
+            return
+
         height = len(self.constructed_world[0])
         width = len(self.constructed_world)
 
-        print("\n\n")
+        directions = ['^', '<', '>', 'v']
 
-        for row in range(height, 0, -1):
-            print("  ", end="")
-            for i in range(1, width + 1):
-                print("+------------+ ", end="")
-            print()
+        # Determine the maximum width needed for each cell, considering Q-values with 4 decimal places
+        max_chars = max(len(f"{cell.q[dir]:.4f}") for row in self.constructed_world for cell in row for dir in directions) + 2
 
-            directions = ['^', '<', '>', 'v']
+        # Generate horizontal line
+        line = "=" * ((max_chars + 4) * width + 5) + "\n"
 
-            for direction in directions:
-                print("  ", end="")
-                for i in range(1, width + 1):
-                    print(f"| {direction} {self.constructed_world[i-1][row-1].q[direction]:9.4f} | ", end="")
-                print()
-
-            print("  ", end="")
-            for i in range(1, width + 1):
-                print("+------------+ ", end="")
-            print()
-
+        # Print the Q-value grid
         print("\n")
+        for row in range(height, 0, -1):
+            print(line, end="")
+            for direction in directions:
+                print("║", end="")
+                for i in range(width):
+                    q_value = self.constructed_world[i][row-1].q[direction]
+                    print(f" {direction} {q_value:>{max_chars}.4f} ║", end="")
+                print("\n", end="")
+            print(line, end="")
+        print("\n")
+
 
     def construct_world(self):
         world = [[self.Cell() for _ in range(self.height_y)] for _ in range(self.width_x)]
