@@ -38,12 +38,3 @@ class Plotter:
         plt.ylabel("Utility estimates")
         plt.legend(loc="lower right")
         plt.show()
-
-# Example usage
-# if __name__ == "__main__":
-#     # Assuming ValueIterationAlgorithm.StateData and QLearning.StateData are properly initialized elsewhere
-#     value_iteration_data = [ValueIterationAlgorithm.StateData(), ValueIterationAlgorithm.StateData()]
-#     q_learning_data = [QLearning.StateData(), QLearning.StateData()]
-
-#     Plotter.plot(value_iteration_data)
-#     Plotter.plot(q_learning_data)

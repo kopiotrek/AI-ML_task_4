@@ -1,5 +1,3 @@
-import numpy as np
-
 class World:
     def __init__(self):
         self.p = []
@@ -21,7 +19,7 @@ class World:
 
     def update_constructed_world(self, constructed_world):
         self.constructed_world = constructed_world
-
+    
 class Cell:
     def __init__(self, state=' ', reward=0.0, utility=0.0, policy=''):
         self.state = state
@@ -68,9 +66,11 @@ class ValueIterationAlgorithm:
         elif action == '>':
             return self.p[2]
         elif action == 'v':
-            return 1.0 - sum(self.p)
+            remaining_prob = 1.0 - sum(self.p)
+            return 0 if remaining_prob < 1e-10 else remaining_prob
         else:
             return 0
+
 
     def update_actions(self, desired_orientation):
         if desired_orientation == '^':
@@ -128,6 +128,7 @@ class ValueIterationAlgorithm:
             else:
                 utility += p_current * self.constructed_world[new_x][new_y].utility
         action_utilities.append(utility)
+
 
     def start(self, world):
         self.p = world.get_p()

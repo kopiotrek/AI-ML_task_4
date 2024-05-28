@@ -1,8 +1,5 @@
 import os
 import random
-import math
-import json
-import numpy as np
 import sys
 
 class World:
@@ -203,7 +200,7 @@ class World:
         print(f"  Height Y: {self.height_y}")
         print(f"  Start X: {self.start_x}")
         print(f"  Start Y: {self.start_y}")
-        print(f"  Uncertainty Distribution P: {self.p[0]}(^), {self.p[1]}(<), {self.p[2]}(>)")
+        print(f"  Uncertainty Distribution P: {self.p[0]}(^), {self.p[1]}(<), {self.p[2]}(>)")        
         print(f"  Reward: {self.reward}")
         print(f"  Discounting Parameter Gamma: {self.gamma}")
         print(f"  Exploration Parameter Epsilon: {self.epsilon}")
@@ -236,14 +233,16 @@ class World:
         max_chars = max(len(f"{cell.utility:.4f}") for row in self.constructed_world for cell in row) + 1
 
         # Generate horizontal line
-        line = "=" * ((max_chars + 3) * width + 1) + "\n"
+        line = "=" * ((max_chars + 6) * width + 1) + "\n"
 
         # Print the grid
         print(line, end="")
-        for j in range(height):
+        for j in range(height - 1, -1, -1):
             print("║", end="")
             for i in range(width):
-                print(f" {self.constructed_world[i][j].utility:>{max_chars}.4f} ║", end="")
+                print(f" {self.constructed_world[i][j].policy}", end="")
+                print(f" {self.constructed_world[i][j].state}", end="")
+                print(f"{self.constructed_world[i][j].utility:>{max_chars}.4f} ║", end="")
             print("\n", end="")
             print(line, end="")
 

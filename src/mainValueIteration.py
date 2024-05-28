@@ -3,11 +3,13 @@ from ValueIterationAlgorithm import ValueIterationAlgorithm
 from Plotter import Plotter
 from World import World
 
+
+
 def main():
     # Set up argument parser
     parser = argparse.ArgumentParser(description='Run Value Iteration Algorithm.')
     parser.add_argument('--data', required=True, help='Path to the data file')
-    parser.add_argument('--gamma', type=float, default=0.9, help='Discount factor gamma')
+    parser.add_argument('--gamma', type=float, default=1, help='Discount factor gamma')
     parser.add_argument('--plot', action='store_true', help='Whether to plot the results')
 
     args = parser.parse_args()

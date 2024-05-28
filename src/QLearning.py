@@ -1,6 +1,4 @@
-import numpy as np
 import random
-from World import World
 
 class Cell:
     def __init__(self):
