@@ -7,7 +7,7 @@ def main():
     # Set up argument parser
     parser = argparse.ArgumentParser(description='Run Q-Learning Algorithm.')
     parser.add_argument('--data', required=True, help='Path to the data file')
-    parser.add_argument('--gamma', type=float, default=0.9, help='Discount factor gamma')
+    parser.add_argument('--gamma', type=float, default=1, help='Discount factor gamma')
     parser.add_argument('--epsilon', type=float, default=0.1, help='Exploration rate epsilon')
     parser.add_argument('--iteration', type=int, default=10000, help='Number of iterations for Q-Learning')
     parser.add_argument('--plot', action='store_true', help='Whether to plot the results')
@@ -41,6 +41,7 @@ def main():
     # Set iteration count if provided
     if args.iteration is not None:
         q_learning.set_iteration(args.iteration)
+        q_learning.is_iteration_defined_by_user = True
 
     # Print and construct world
     world.print_world_parameters()

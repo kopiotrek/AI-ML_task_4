@@ -269,7 +269,7 @@ class World:
                 print("║", end="")
                 for i in range(width):
                     q_value = self.constructed_world[i][row-1].q[direction]
-                    print(f" {direction} {q_value:>{max_chars}.4f} ║", end="")
+                    print(f" {direction} {q_value:>{max_chars}.2f} ║", end="")
                 print("\n", end="")
             print(line, end="")
         print("\n")
